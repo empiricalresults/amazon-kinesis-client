@@ -24,14 +24,12 @@ import org.apache.commons.logging.LogFactory;
  */
 class DrainChildSTDERRTask extends LineReaderTask<Boolean> {
 
-    private static final Log LOG = LogFactory.getLog(DrainChildSTDERRTask.class);
-
     DrainChildSTDERRTask() {
     }
 
     @Override
     protected HandleLineResult<Boolean> handleLine(String line) {
-        LOG.error("Received error line from subprocess [" + line + "] for shard " + getShardId());
+        // pass the line directly to stderr
         System.err.println(line);
         return new HandleLineResult<Boolean>();
     }
