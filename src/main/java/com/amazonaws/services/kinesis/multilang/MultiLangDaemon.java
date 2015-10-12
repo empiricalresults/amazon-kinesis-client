@@ -130,6 +130,17 @@ public class MultiLangDaemon implements Callable<Integer> {
             System.exit(1);
         }
 
+        start(config);
+    }
+
+
+    /**
+     * Starts the daemon using the specified config.  This is a blocking call and will exit the jvm if the
+     * child process dies.
+     *
+     * @param config
+     */
+    public static void start(MultiLangDaemonConfig config) {
         ExecutorService executorService = config.getExecutorService();
 
         // Daemon

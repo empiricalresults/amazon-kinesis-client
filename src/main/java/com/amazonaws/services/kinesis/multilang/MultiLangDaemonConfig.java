@@ -71,7 +71,7 @@ public class MultiLangDaemonConfig {
     }
 
     /**
-     * 
+     *
      * @param propertiesFile The location of the properties file.
      * @param classLoader A classloader, useful if trying to programmatically configure with the daemon, such as in a
      *        unit test.
@@ -80,9 +80,22 @@ public class MultiLangDaemonConfig {
      * @throws IllegalArgumentException Thrown when the contents of the properties file are not as expected.
      */
     public MultiLangDaemonConfig(String propertiesFile,
-            ClassLoader classLoader,
-            KinesisClientLibConfigurator configurator) throws IOException, IllegalArgumentException {
+                                 ClassLoader classLoader,
+                                 KinesisClientLibConfigurator configurator) throws IOException, IllegalArgumentException {
         Properties properties = loadProperties(classLoader, propertiesFile);
+        init(properties, configurator);
+    }
+
+    public MultiLangDaemonConfig(Properties properties) {
+        this(properties, new KinesisClientLibConfigurator());
+    }
+
+    public MultiLangDaemonConfig(Properties properties, KinesisClientLibConfigurator configurator) {
+        init(properties, configurator);
+    }
+
+
+    private void init(Properties properties, KinesisClientLibConfigurator configurator) {
         if (!validateProperties(properties)) {
             throw new IllegalArgumentException("Must provide an executable name in the properties file, "
                     + "e.g. executableName = sampleapp.py");
