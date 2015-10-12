@@ -748,4 +748,38 @@ public class KinesisClientLibConfiguration {
         this.regionName = regionName;
         return this;
     }
+
+    /**
+     * Sets a custom AWSCredentialsProvider for the kinesis access.
+     *
+     * @param provider
+     * @return
+     */
+    public KinesisClientLibConfiguration withKinesisCredentialsProvider(AWSCredentialsProvider provider) {
+        this.kinesisCredentialsProvider = provider;
+        return this;
+    }
+
+    /**
+     * Sets a custom AWSCredentialsProvider for the dynamodb access.
+     *
+     * @param provider
+     * @return
+     */
+    public KinesisClientLibConfiguration withDynamoDBCredentialsProvider(AWSCredentialsProvider provider) {
+        this.dynamoDBCredentialsProvider = provider;
+        return this;
+    }
+
+
+    /**
+     * Sets a custom AWSCredentialsProvider for the cloudwatch access.
+     *
+     * @param provider
+     * @return
+     */
+    public KinesisClientLibConfiguration withCloudWatchCredentialsProvider(AWSCredentialsProvider provider) {
+        this.cloudWatchCredentialsProvider = provider;
+        return this;
+    }
 }
