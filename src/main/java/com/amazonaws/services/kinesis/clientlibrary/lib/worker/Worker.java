@@ -356,7 +356,7 @@ public class Worker implements Runnable {
                 // clean up shard consumers for unassigned shards
                 cleanupShardConsumers(assignedShards);
 
-                wlog.info("Sleeping ...");
+                wlog.debug("Sleeping ...");
                 Thread.sleep(idleTimeInMilliseconds);
             } catch (Exception e) {
                 LOG.error(String.format("Worker.run caught exception, sleeping for %s milli seconds!",
@@ -461,10 +461,10 @@ public class Worker implements Runnable {
                     builder.append(shardInfo.getShardId());
                     firstItem = false;
                 }
-                wlog.info("Current stream shard assignments: " + builder.toString());
+                wlog.debug("Current stream shard assignments: " + builder.toString());
             }
         } else {
-            wlog.info("No activities assigned");
+            wlog.debug("No activities assigned");
         }
 
         return assignedStreamShards;
@@ -579,7 +579,10 @@ public class Worker implements Runnable {
 
         }
 
-        @SuppressWarnings("unused")
+        public void debug(Object message) {
+            LOG.debug(message);
+        }
+
         public void debug(Object message, Throwable t) {
             LOG.debug(message, t);
         }

@@ -56,7 +56,7 @@ abstract class LineReaderTask<T> implements Callable<T> {
     public T call() throws Exception {
         String nextLine = null;
         try {
-            LOG.info("Starting: " + description);
+            LOG.debug("Starting: " + description);
             while ((nextLine = reader.readLine()) != null) {
                 HandleLineResult<T> result = handleLine(nextLine);
                 if (result.hasReturnValue()) {
@@ -66,7 +66,7 @@ abstract class LineReaderTask<T> implements Callable<T> {
         } catch (IOException e) {
             return returnAfterException(e);
         }
-        LOG.info("Stopping: " + description);
+        LOG.debug("Stopping: " + description);
         return returnAfterEndOfInput();
     }
 
