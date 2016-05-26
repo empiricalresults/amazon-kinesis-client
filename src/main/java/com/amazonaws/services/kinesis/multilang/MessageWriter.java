@@ -79,7 +79,7 @@ class MessageWriter {
                         writer.write(System.lineSeparator(), 0, System.lineSeparator().length());
                         writer.flush();
                     }
-                    LOG.info("Message size == " + message.getBytes().length + " bytes for shard " + shardId);
+                    LOG.debug("Message size == " + message.getBytes().length + " bytes for shard " + shardId);
                 } catch (IOException e) {
                     open = false;
                 }
@@ -91,7 +91,7 @@ class MessageWriter {
             return this.executorService.submit(writeMessageToOutputTask);
         } else {
             String errorMessage = "Cannot write message " + message + " because writer is closed for shard " + shardId;
-            LOG.info(errorMessage);
+            LOG.warn(errorMessage);
             throw new IllegalStateException(errorMessage);
         }
     }
@@ -103,7 +103,7 @@ class MessageWriter {
      * @return
      */
     private Future<Boolean> writeMessage(Message message) {
-        LOG.info("Writing " + message.getClass().getSimpleName() + " to child process for shard " + shardId);
+        LOG.debug("Writing " + message.getClass().getSimpleName() + " to child process for shard " + shardId);
         try {
             String jsonText = objectMapper.writeValueAsString(message);
             return writeMessageToOutput(jsonText);

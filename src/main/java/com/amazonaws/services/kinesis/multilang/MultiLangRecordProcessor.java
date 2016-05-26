@@ -157,7 +157,7 @@ public class MultiLangRecordProcessor implements IRecordProcessor {
         // In cases where KCL loses lease for the shard after creating record processor instance but before
         // record processor initialize() is called, then shutdown() may be called directly before initialize().
         if (!initialized) {
-            LOG.info("Record processor was not initialized and will not have a child process, "
+            LOG.warn("Record processor was not initialized and will not have a child process, "
                     + "so not invoking child process shutdown.");
             this.state = ProcessState.SHUTDOWN;
             return;
@@ -271,7 +271,6 @@ public class MultiLangRecordProcessor implements IRecordProcessor {
     /**
      * We provide a package level method for unit testing this call to exit.
      * 
-     * @param val exit value
      */
     void exit() {
         System.exit(EXIT_VALUE);

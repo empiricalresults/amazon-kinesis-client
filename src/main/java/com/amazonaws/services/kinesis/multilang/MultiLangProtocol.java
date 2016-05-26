@@ -168,7 +168,7 @@ class MultiLangProtocol {
      * @return Whether or not this operation succeeded.
      */
     private boolean validateStatusMessage(StatusMessage statusMessage, String action) {
-        LOG.info("Received response " + statusMessage + " from subprocess while waiting for " + action
+        LOG.debug("Received response " + statusMessage + " from subprocess while waiting for " + action
                 + " while processing shard " + shardId);
         return !(statusMessage == null || statusMessage.getResponseFor() == null || !statusMessage.getResponseFor()
                 .equals(action));
@@ -190,10 +190,10 @@ class MultiLangProtocol {
         try {
             if (checkpointer != null) {
                 if (sequenceNumber == null) {
-                    LOG.info(String.format("Attempting to checkpoint for shard %s", shardId));
+                    LOG.debug(String.format("Attempting to checkpoint for shard %s", shardId));
                     checkpointer.checkpoint();
                 } else {
-                    LOG.info(String.format("Attempting to checkpoint at sequence number %s for shard %s",
+                    LOG.debug(String.format("Attempting to checkpoint at sequence number %s for shard %s",
                             sequenceNumber, shardId));
                     checkpointer.checkpoint(sequenceNumber);
                 }

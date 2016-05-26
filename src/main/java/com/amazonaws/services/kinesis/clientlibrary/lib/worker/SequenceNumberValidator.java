@@ -71,24 +71,24 @@ public class SequenceNumberValidator {
     void validateSequenceNumber(String sequenceNumber)
         throws IllegalArgumentException, ThrottlingException, KinesisClientLibDependencyException {
         if (!isDigits(sequenceNumber)) {
-            LOG.info("Sequence number must be numeric, but was " + sequenceNumber);
+            LOG.warn("Sequence number must be numeric, but was " + sequenceNumber);
             throw new IllegalArgumentException("Sequence number must be numeric, but was " + sequenceNumber);
         }
         try {
             if (validateWithGetIterator) {
                 proxy.getIterator(shardId, ShardIteratorType.AFTER_SEQUENCE_NUMBER.toString(), sequenceNumber);
-                LOG.info("Validated sequence number " + sequenceNumber + " with shard id " + shardId);
+                LOG.debug("Validated sequence number " + sequenceNumber + " with shard id " + shardId);
             }
         } catch (InvalidArgumentException e) {
-            LOG.info("Sequence number " + sequenceNumber + " is invalid for shard " + shardId, e);
+            LOG.warn("Sequence number " + sequenceNumber + " is invalid for shard " + shardId, e);
             throw new IllegalArgumentException("Sequence number " + sequenceNumber + " is invalid for shard "
                     + shardId, e);
         } catch (ProvisionedThroughputExceededException e) {
             // clients should have back off logic in their checkpoint logic
-            LOG.info("Exceeded throughput while getting an iterator for shard " + shardId, e);
+            LOG.warn("Exceeded throughput while getting an iterator for shard " + shardId, e);
             throw new ThrottlingException("Exceeded throughput while getting an iterator for shard " + shardId, e);
         } catch (AmazonServiceException e) {
-            LOG.info("Encountered service exception while getting an iterator for shard " + shardId, e);
+            LOG.warn("Encountered service exception while getting an iterator for shard " + shardId, e);
             if (e.getStatusCode() >= SERVER_SIDE_ERROR_CODE) {
                 // clients can choose whether to retry in their checkpoint logic
                 throw new KinesisClientLibDependencyException("Encountered service exception while getting an iterator"
